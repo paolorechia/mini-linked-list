@@ -14,7 +14,7 @@ impl LinkedList<i32> {
             next: None,
         }
     }
-    pub fn push(&mut self, x: i32) {
+    pub fn push_right(&mut self, x: i32) {
         let mut node = self;
         while node.next.is_some() {
             node = node.next.as_mut().unwrap();
@@ -24,6 +24,15 @@ impl LinkedList<i32> {
             next: None,
         }))
     }
+
+    pub fn push_left(self, x: i32) -> LinkedList<i32>{
+        let node= LinkedList::<i32> {
+            val: Some(x),
+            next: Some(Box::new(self))
+        };
+        node
+    }
+
 
     pub fn collect(&self) -> Vec<i32> {
         let mut result = Vec::<i32>::new();
@@ -45,31 +54,26 @@ impl LinkedList<i32> {
     }
 }
 
-// Couldn't figure out how to implement this yet
-// For now we have an iteration that copies into a vector to collect (not ideal)
-// impl <'a>Iterator for LinkedList<i32> {
-//     type Item = &'a Box<LinkedList<i32>>;
-
-//     fn next<'a> (self: &'a mut LinkedList<i32>) -> Option<Box<LinkedList<i32>>>{
-//         match &self.next {
-//             Some(value) => Some(value),
-//             None => None
-//         }
-//     }
-// }
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn test_linked_list() {
+    fn test_linked_list_push_right() {
         let mut list: LinkedList<i32> = LinkedList::<i32>::new();
-        list.push(1);
-        list.push(2);
-        list.push(3);
-        list.push(4);
+        list.push_right(1);
+        list.push_right(2);
+        list.push_right(3);
+        list.push_right(4);
         assert_eq!(list.collect(), vec![1,2,3,4]);
+    }
+    #[test]
+    fn test_linked_list_push_left() {
+        let mut list: LinkedList<i32> = LinkedList::<i32>::new();
+        list = list.push_left(1);
+        list = list.push_left(2);
+        list = list.push_left(3);
+        list = list.push_left(4);
+        assert_eq!(list.collect(), vec![4,3,2,1]);
     }
 }
