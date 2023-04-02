@@ -47,6 +47,27 @@ impl LinkedList<i32> {
         }
     }
 
+    pub fn pop_right(&mut self) -> Option<i32>{
+        let mut node: & LinkedList<i32>;
+        let x: Option<i32>;
+        // no next node, need to try to pop self
+        if self.next.is_none() {
+            let val = self.val;
+            self.val = None;
+            return val
+        }
+        // we have a next, let's try to loop until end
+        else {
+            let mut next: &Box<LinkedList<i32>> = self.next.as_ref().unwrap();
+            while next.next.is_some() {
+                node = next;
+                next = node.next.as_ref().unwrap();
+            }
+            x = next.val.clone();
+        }
+        return x
+    }
+
     pub fn collect(&self) -> Vec<i32> {
         let mut result = Vec::<i32>::new();
         let mut node = self;
@@ -121,5 +142,20 @@ mod tests {
         assert_eq!(result.list.is_none(), true);
         assert_eq!(result.val.unwrap(), 4);
 
+    }
+
+    #[test]
+    fn test_linked_list_pop_right() {
+        let mut list: LinkedList<i32> = LinkedList::<i32>::new();
+        list.push_right(1);
+        list.push_right(2);
+        list.push_right(3);
+        list.push_right(4);
+
+        assert_eq!(list.pop_right().unwrap(), 4);
+        assert_eq!(list.pop_right().unwrap(), 3);
+        assert_eq!(list.pop_right().unwrap(), 2);
+        assert_eq!(list.pop_right().unwrap(), 1);
+        assert_eq!(list.pop_right().is_none(), true);
     }
 }
