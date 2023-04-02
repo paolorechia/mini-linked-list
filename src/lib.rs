@@ -48,22 +48,25 @@ impl LinkedList<i32> {
     }
 
     pub fn pop_right(&mut self) -> Option<i32>{
-        let mut node: & LinkedList<i32>;
-        let x: Option<i32>;
+        let mut node: &mut Option<Box<LinkedList<i32>>> = &mut self.next;
+        let mut x: Option<i32> = None;
         // no next node, need to try to pop self
-        if self.next.is_none() {
+        if node.is_none() {
             let val = self.val;
             self.val = None;
             return val
         }
-        // we have a next, let's try to loop until end
+        // only one next node, we should return it
+        if node.as_mut().unwrap().next.is_none() {
+
+        }
+        // we can assume we have at least two valid next aheads
         else {
-            let mut next: &Box<LinkedList<i32>> = self.next.as_ref().unwrap();
-            while next.next.is_some() {
-                node = next;
-                next = node.next.as_ref().unwrap();
+            while node.as_mut().unwrap().next.as_mut().unwrap().next.is_some() {
+                node = &mut node.as_mut().unwrap().next;
             }
-            x = next.val.clone();
+            x = node.as_mut().unwrap().val;
+            node.as_mut().unwrap().next = None;
         }
         return x
     }
