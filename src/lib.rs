@@ -58,14 +58,17 @@ impl LinkedList<i32> {
         }
         // only one next node, we should return it
         if node.as_mut().unwrap().next.is_none() {
-
+            x = node.as_mut().unwrap().val;
+            node.as_mut().unwrap().next = None;
+            node.as_mut().unwrap().val = None;
+            return x;
         }
         // we can assume we have at least two valid next aheads
         else {
             while node.as_mut().unwrap().next.as_mut().unwrap().next.is_some() {
                 node = &mut node.as_mut().unwrap().next;
             }
-            x = node.as_mut().unwrap().val;
+            x = node.as_mut().unwrap().next.as_mut().unwrap().val;
             node.as_mut().unwrap().next = None;
         }
         return x
