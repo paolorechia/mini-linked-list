@@ -16,7 +16,7 @@ impl LinkedList<i32> {
     /// 
     /// # Example
     /// ```
-    /// let list = linked_list::LinkedList::<i32>::new();
+    /// let list = mini_linked_list::LinkedList::<i32>::new();
     /// ```
     pub fn new() -> LinkedList<i32>{
         LinkedList {
@@ -31,7 +31,7 @@ impl LinkedList<i32> {
     /// 
     /// # Example
     /// ```
-    /// let mut list = linked_list::LinkedList::<i32>::new();
+    /// let mut list = mini_linked_list::LinkedList::<i32>::new();
     /// list.push_right(1);
     /// list.push_right(2);
     /// list.push_right(3);
@@ -58,7 +58,7 @@ impl LinkedList<i32> {
     /// 
     /// # Example
     /// ```
-    /// use linked_list::LinkedList;
+    /// use mini_linked_list::LinkedList;
     /// let mut list: LinkedList<i32> = LinkedList::<i32>::new();
     /// list = list.push_left(1);
     /// list = list.push_left(2);
@@ -89,7 +89,7 @@ impl LinkedList<i32> {
     /// # Example
     /// 
     /// ```
-    /// use linked_list::{LinkedList, PopLeftResult};
+    /// use mini_linked_list::{LinkedList, PopLeftResult};
     /// let mut list: LinkedList<i32> = LinkedList::<i32>::new();
     /// list.push_right(1);
     /// list.push_right(2);
@@ -128,7 +128,7 @@ impl LinkedList<i32> {
     /// # Example
     /// 
     /// ```
-    /// use linked_list::LinkedList;
+    /// use mini_linked_list::LinkedList;
     /// let mut list: LinkedList<i32> = LinkedList::<i32>::new();
     /// list.push_right(1);
     /// list.push_right(2);
@@ -174,7 +174,7 @@ impl LinkedList<i32> {
     /// 
     /// # Example
     /// ```
-    /// use linked_list::LinkedList;
+    /// use mini_linked_list::LinkedList;
     /// let mut list: LinkedList<i32> = LinkedList::<i32>::new();
     /// list.push_right(1);
     /// list.push_right(2);
