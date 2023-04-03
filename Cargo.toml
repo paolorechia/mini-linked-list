@@ -1,5 +1,5 @@
 [package]
-name = "linked-list"
+name = "mini-linked-list"
 version = "0.1.0"
 edition = "2021"
 description = "A package containing a minimal i32 LinkedList implementation"
