@@ -4,7 +4,12 @@ Learning Rust by implementing simple data structures
 
 ## Install
 
-```cargo install mini-linked-list```
+Add to your Cargo.toml dependencies:
+
+```
+[dependencies]
+mini-linked-list = "0.1.2"
+```
 
 ## Usage:
 
