@@ -1,10 +1,11 @@
 # Heap Linked List in Rust
 
-Learning Rust by implementing simple data structures
+Learning Rust by implementing simple data structures.
+Supports only i32 as of today.
 
 ## Install
 
-```cargo install mini-linked-list```
+```cargo add mini-linked-list```
 
 ## Usage:
 
