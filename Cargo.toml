@@ -1,6 +1,6 @@
 [package]
 name = "mini-linked-list"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "A package containing a minimal i32 LinkedList implementation"
 license = "Apache-2.0" 
