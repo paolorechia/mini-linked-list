@@ -259,16 +259,30 @@ mod tests {
     #[test]
     fn test_linked_list_pop_right() {
         let mut list: LinkedList<i32> = LinkedList::<i32>::new();
+
+        // case 1
+        list.push_right(1);
+        assert_eq!(list.pop_right().unwrap(), 1);
+        assert_eq!(list.pop_right().is_none(), true);
+
+        // case 2
+        list.push_right(1);
+        list.push_right(2);
+
+        assert_eq!(list.pop_right().unwrap(), 2);
+        assert_eq!(list.pop_right().unwrap(), 1);
+        assert_eq!(list.pop_right().is_none(), true);
+
+
+        // case 3
         list.push_right(1);
         list.push_right(2);
         list.push_right(3);
-        list.push_right(4);
- 
-        assert_eq!(list.pop_right().unwrap(), 4);
         assert_eq!(list.pop_right().unwrap(), 3);
         assert_eq!(list.pop_right().unwrap(), 2);
         assert_eq!(list.pop_right().unwrap(), 1);
         assert_eq!(list.pop_right().is_none(), true);
+
     }
 
     #[test]
@@ -293,6 +307,6 @@ mod tests {
         let list = result.list.unwrap();
         assert_eq!(list.collect(), vec![3,2,1,1,2,3]);
         assert_eq!(result.val.unwrap(), 4);
-
     }
+
 }
