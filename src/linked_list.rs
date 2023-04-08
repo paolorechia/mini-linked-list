@@ -47,12 +47,16 @@ impl LinkedList<i32> {
     /// ```
     pub fn push_left(&mut self, x: i32) {
         unsafe {
+            // allocate on the heap
             let node = Box::new(Node::<i32> {
                 next: None,
                 element: x
             });
-            let mut pter: NonNull<Node<i32>> = NonNull::new_unchecked( Box::leak(node));
+            // take control over the raw pointer
+            let mut pter: NonNull<Node<i32>> = Box::leak(node).into();
+            // update the next to point to head
             pter.as_mut().next = self.head;
+            // head is now the new pointer
             self.head = Some(pter);
         }
     }
