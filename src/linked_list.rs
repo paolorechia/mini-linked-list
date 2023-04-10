@@ -59,8 +59,39 @@ impl LinkedList<i32> {
             unsafe {
                 // new node should point to current head
                 pter.as_mut().next = self.next;
-                // head is now the new pointer
-                self.next = Some(pter);
+            }
+            // head is now the new pointer
+            self.next = Some(pter);
+
+        }
+    }
+
+    pub fn pop_left(&mut self) -> Option<i32> {
+        // empty list
+        if self.next.is_none() {
+            return None
+        } else {
+            let mut next = self.next.unwrap();
+
+            // list only has one element
+            let only_one: bool = unsafe {next.as_mut().next.is_none()};
+            if only_one == true {
+                // pull the next element from the raw pointer
+                // and store it in a box, so memory free can work correctly
+                let next_box = unsafe {
+                    Box::from_raw(next.as_ptr())
+                };
+                self.next = None;
+                next_box.val
+            }
+            // list has two or more elements
+            else {
+                let next_of_next = unsafe { next.as_mut().next };
+                let next_box = unsafe {
+                    Box::from_raw(next.as_ptr())
+                };
+                self.next = next_of_next;
+                next_box.val
             }
         }
     }
@@ -100,5 +131,32 @@ mod tests {
         list.push_left(3);
         list.push_left(4);
         assert_eq!(list.collect(), vec![4,3,2,1]);
+    }
+
+    #[test]
+    fn test_linked_list_pop_left() {
+        let mut list: LinkedList<i32> = LinkedList::<i32>::new();
+        assert_eq!(list.collect(), vec![]);
+
+        list.push_left(1);
+        list.push_left(2);
+        list.push_left(3);
+        list.push_left(4);
+        assert_eq!(list.collect(), vec![4,3,2,1]);
+
+        let x = list.pop_left();
+        assert_eq!(x.unwrap(), 4);
+
+        let x = list.pop_left();
+        assert_eq!(x.unwrap(), 3);
+
+        let x = list.pop_left();
+        assert_eq!(x.unwrap(), 2);
+
+        let x = list.pop_left();
+        assert_eq!(x.unwrap(), 1);
+
+        let x = list.pop_left();
+        assert_eq!(x.is_none(), true);
     }
 }
