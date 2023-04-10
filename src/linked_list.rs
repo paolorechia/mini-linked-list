@@ -33,8 +33,6 @@ impl LinkedList<i32> {
     /// This method works in O(1) operation, as it replaces the head of the list
     /// with a new one and no traversal thus is required.
     /// 
-    /// The method returns the new memory address of the list that must be handled
-    /// by the caller (typically reassigning the variable).
     /// 
     /// # Example
     /// ```
@@ -97,5 +95,4 @@ mod tests {
         list.push_left(4);
         assert_eq!(list.collect(), vec![4,3,2,1]);
     }
-  
 }
