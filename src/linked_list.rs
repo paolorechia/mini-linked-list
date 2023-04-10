@@ -5,15 +5,10 @@
 
 use core::ptr::NonNull;
 
-#[derive(Debug)]
-pub struct LinkedList<T> {
-    head: Option<NonNull<Node<T>>>,
-}
 
-#[derive(Debug)]
-struct Node<T> {
-    pub next: Option<NonNull<Node<T>>>,
-    pub element: T,
+pub struct LinkedList<T> {
+    pub val: Option<T>,
+    pub next: Option<NonNull<LinkedList<T>>>,
 }
 
 impl LinkedList<i32> {
@@ -25,7 +20,8 @@ impl LinkedList<i32> {
     /// ```
     pub fn new() -> LinkedList<i32>{
         LinkedList {
-            head: None
+            val: None,
+            next: None
         }
     }
     /// # Adds an element to the left side of the list
@@ -44,37 +40,47 @@ impl LinkedList<i32> {
     /// list.push_left(4);
     /// ```
     pub fn push_left(&mut self, x: i32) {
-        unsafe {
+        // allocate on the heap
+        let node = Box::new(LinkedList::<i32> {
+            next: None,
+            val: Some(x)
+        });
+        // take control over the raw pointer
+        if self.next.is_none() {
+            // our list is empty
             // allocate on the heap
-            let node = Box::new(Node::<i32> {
-                next: None,
-                element: x
-            });
-            // take control over the raw pointer
-            let mut pter: NonNull<Node<i32>> = Box::leak(node).into();
-            // update the next to point to head
-            pter.as_mut().next = self.head;
             // head is now the new pointer
-            self.head = Some(pter);
+            let pter: NonNull<LinkedList<i32>> = Box::leak(node).into();
+            self.next = Some(pter);
+
+        } else {
+            // our list already has an element
+            let mut pter: NonNull<LinkedList<i32>> = Box::leak(node).into();
+            unsafe {
+                // new node should point to current head
+                pter.as_mut().next = self.next;
+                // head is now the new pointer
+                self.next = Some(pter);
+            }
         }
     }
 
+
     pub fn collect(&self) -> Vec<i32> {
         let mut result = Vec::<i32>::new();
-        if self.head.is_none() {
+        if self.next.is_none() {
             return result
         }
 
-        let mut node = self.head.unwrap();
+        let mut node = self.next.unwrap();
         unsafe {
-            result.push(node.as_mut().element);
+            result.push(node.as_mut().val.unwrap());
             while node.as_mut().next.is_some() {
                 node = node.as_mut().next.unwrap();
-                result.push(node.as_mut().element);
+                result.push(node.as_mut().val.unwrap());
             }
         }
         return result;
-
     }
 
     
