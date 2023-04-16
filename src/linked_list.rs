@@ -6,19 +6,24 @@
 use core::ptr::NonNull;
 
 
-pub struct LinkedList<T> {
+pub struct LinkedList<T> 
+    where T: Copy,
+{
     pub val: Option<T>,
     pub next: Option<NonNull<LinkedList<T>>>,
 }
 
-impl LinkedList<i32> {
+impl<T> LinkedList<T>
+where T: Copy,
+ {
+    
     /// # Creates an empty LinkedList that may hold i32 values
     /// 
     /// # Example
     /// ```
-    /// let list = mini_linked_list::LinkedList::<i32>::new();
+    /// let list = mini_linked_list::LinkedList::<&str>::new();
     /// ```
-    pub fn new() -> LinkedList<i32>{
+    pub fn new() -> LinkedList<T>{
         LinkedList {
             val: None,
             next: None
@@ -39,9 +44,9 @@ impl LinkedList<i32> {
     /// list.push_left(3);
     /// list.push_left(4);
     /// ```
-    pub fn push_left(&mut self, x: i32) {
+    pub fn push_left(&mut self, x: T) {
         // allocate on the heap
-        let node = Box::new(LinkedList::<i32> {
+        let node = Box::new(LinkedList::<T> {
             next: None,
             val: Some(x)
         });
@@ -50,12 +55,12 @@ impl LinkedList<i32> {
             // our list is empty
             // allocate on the heap
             // head is now the new pointer
-            let pter: NonNull<LinkedList<i32>> = Box::leak(node).into();
+            let pter: NonNull<LinkedList<T>> = Box::leak(node).into();
             self.next = Some(pter);
 
         } else {
             // our list already has an element
-            let mut pter: NonNull<LinkedList<i32>> = Box::leak(node).into();
+            let mut pter: NonNull<LinkedList<T>> = Box::leak(node).into();
             unsafe {
                 // new node should point to current head
                 pter.as_mut().next = self.next;
@@ -66,7 +71,7 @@ impl LinkedList<i32> {
         }
     }
 
-    pub fn pop_left(&mut self) -> Option<i32> {
+    pub fn pop_left(&mut self) -> Option<T> {
         // empty list
         if self.next.is_none() {
             return None
@@ -97,8 +102,8 @@ impl LinkedList<i32> {
     }
 
 
-    pub fn collect(&self) -> Vec<i32> {
-        let mut result = Vec::<i32>::new();
+    pub fn collect(&self) -> Vec<T> {
+        let mut result = Vec::<T>::new();
         if self.next.is_none() {
             return result
         }
